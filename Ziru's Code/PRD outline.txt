@@ -1,0 +1,66 @@
+**Product Requirements Document (PRD): LLM-Assisted Android Malware Detector**
+
+**1. What We're Building & Why**
+
+We are building a system that uses AI (a Large Language Model and a Convolutional Neural Network) to automatically analyze Android APK files and accurately identify malicious software. The goal is to be more accurate than existing solutions (target: >97.15% accuracy) and to provide clear, understandable reasons for each detection.
+
+**2. Who It's For**
+
+*   **Security Analysts:** To quickly get a malware verdict and a detailed report.
+*   **Researchers:** To understand how the system makes its decisions.
+*   **App Developers:** To check their own apps for potential security issues.
+
+**3. What the System Will Do (Core Features)**
+
+1.  **APK Processing**
+    *   Accept uploaded APK files.
+    *   Automatically unpack them to extract code and manifest files.
+
+2.  **Feature Extraction**
+    *   **Static Analysis:** Extract permissions, API calls, and URLs from the app.
+    *   **Binary Analysis:** Extract patterns from the app's compiled code.
+
+3.  **LLM Analysis**
+    *   Send extracted features (permissions, APIs, etc.) to an LLM.
+    *   The LLM generates plain-English descriptions of what each feature does and why it might be risky.
+    *   Store these descriptions.
+
+4.  **AI Classification**
+    *   Convert all extracted data (code patterns, LLM descriptions) into a standardized numerical format (tensors).
+    *   Process this data through a trained CNN model to make a final **Benign** or **Malicious** classification.
+
+5.  **Reporting**
+    *   Generate a detailed report for every analysis containing:
+        *   The final verdict and a confidence score.
+        *   A list of the most suspicious features.
+        *   The LLM's easy-to-understand explanation for why those features are suspicious.
+        *   Actionable recommendations.
+
+**4. Non-Functional Requirements (How It Needs to Perform)**
+
+*   **Accuracy:** >97.15% detection rate.
+*   **Speed:** Single analysis must complete within a defined time limit (X minutes).
+*   **Reliability:** Must handle errors gracefully (e.g., corrupt APKs) without crashing.
+*   **Security:** All uploaded files and data must be processed securely.
+
+**5. How We'll Build It (Technology Stack)**
+
+*   **Language:** Python
+*   **AI Frameworks:** TensorFlow / PyTorch
+*   **LLM:** Hugging Face Transformers or OpenAI API
+*   **APK Tooling:** APKtool
+*   **Backend (Optional):** Flask/Django with MongoDB/PostgreSQL
+
+**6. How We'll Measure Success**
+
+Primary metrics for the model's performance:
+*   **Accuracy, Precision, Recall, and F1-Score**
+*   **False Positive Rate** (must be low to avoid flagging good apps as bad)
+*   **Inference Time** and **Resource Usage** (CPU/Memory)
+
+**7. Future Ideas**
+
+*   Add dynamic analysis (running the app in a sandbox).
+*   Improve report explanations with more advanced techniques.
+*   Make the model harder to trick by attackers.
+*   Optimize the system to run on less powerful hardware.
